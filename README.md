@@ -13,7 +13,7 @@ The plugins __sbt_microsite__ and __tut__ are included.
 
 ## Usage 
 
-```sbt new lewismj/sbt-library-template.g8```
+```sbt new lewismj/sbt-project.g8```
 
 ## Directory Layout
 
