@@ -1,4 +1,6 @@
-# SBT Project Template ("standard" layout using 'core', 'tests' and 'docs')
+# SBT Project Template 
+
+## A standardized Scala project layout.
 
 This 'modern' [giter8][1] template will write SBT build files for a Scala projects.
 
