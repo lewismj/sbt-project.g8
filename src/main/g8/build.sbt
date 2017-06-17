@@ -39,8 +39,6 @@ lazy val credentialSettings = Seq(
   } yield Credentials("Sonatype Nexus Repository Manager", "oss.sonatype.org", username, password)).toSeq
 )
 
-
-
 lazy val scoverageSettings = Seq(
   coverageMinimum := 75,
   coverageFailOnMinimum := false,
@@ -74,8 +72,8 @@ lazy val publishSettings = Seq(
   pomExtra := (
     <developers>
       <developer>
-        <name>placeholder</name>
-        <url>placeholder</url>
+        <name>$gh_name$</name>
+        <url>@$gh_username$</url>
       </developer>
     </developers>
   )
@@ -122,7 +120,7 @@ lazy val docSettings = Seq(
 
 lazy val docs = project
     .enablePlugins(MicrositesPlugin)
-    .settings(moduleName := "tiki-docs")
+    .settings(moduleName := "$package$-docs")
     .settings(unidocSettings: _*)
     .settings(ghpages.settings)
     .dependsOn(core)
