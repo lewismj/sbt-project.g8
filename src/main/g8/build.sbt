@@ -1,3 +1,5 @@
+import sbt.Credentials
+import sbtrelease.ReleaseStateTransformations._
 
 lazy val commonScalacOptions = Seq(
   "-feature",
