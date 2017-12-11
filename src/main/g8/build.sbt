@@ -1,3 +1,5 @@
+enablePlugins(GhpagesPlugin)
+
 lazy val commonScalacOptions = Seq(
   "-feature",
   "-deprecation",
@@ -129,7 +131,7 @@ lazy val tests = project.in(file("tests"))
 lazy val bench = project.in(file("bench"))
   .dependsOn(core)
   .dependsOn(tests  % "test->test")
-  .settings(moduleName := "taniwha-bench")
+  .settings(moduleName := "$package$-bench")
   .settings(taniwhaSettings:_*)
   .settings(noPublishSettings:_*)
   .settings(
