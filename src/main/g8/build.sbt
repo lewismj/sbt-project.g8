@@ -1,8 +1,3 @@
-import sbtassembly.AssemblyPlugin.autoImport._
-import com.typesafe.sbt.SbtGhPages.GhPagesKeys._
-import UnidocKeys._
-import com.typesafe.sbt.pgp.PgpKeys._
-
 lazy val commonScalacOptions = Seq(
   "-feature",
   "-deprecation",
