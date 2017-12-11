@@ -26,17 +26,7 @@ lazy val buildSettings = Seq(
 )
 
 lazy val noPublishSettings = Seq(
-  publish := (),
-  publishLocal := (),
-  publishArtifact := false,
-  publishSigned := ()
-)
-
-lazy val credentialSettings = Seq(
-  credentials ++= (for {
-    username <- Option(System.getenv().get("SONATYPE_USERNAME"))
-    password <- Option(System.getenv().get("SONATYPE_PASSWORD"))
-  } yield Credentials("Sonatype Nexus Repository Manager", "oss.sonatype.org", username, password)).toSeq
+    skip in publish := true
 )
 
 lazy val scoverageSettings = Seq(
@@ -53,31 +43,27 @@ lazy val commonSettings = Seq(
   fork in test := true
 )
 
-
 lazy val publishSettings = Seq(
   publishMavenStyle := true,
   publishArtifact in Test := false,
   pomIncludeRepository := Function.const(false),
-  publishTo := {
-    val nexus = "https://oss.sonatype.org/"
-    if (isSnapshot.value)
-      Some("Snapshots" at nexus + "content/repositories/snapshots")
-    else
-      Some("Releases" at nexus + "service/local/staging/deploy/maven2")
-  },
-  homepage := Some(url("https://github.com/$gh_username$/$name$")),
-  licenses := Seq("BSD-style" -> url("http://www.opensource.org/licenses/bsd-license.php")),
-  scmInfo := Some(ScmInfo(url("https://github.com/$gh_username$/$name$"), "scm:git:git@github.com:$gh_username$/$name$.git")),
+  sonatypeProfileName := "com.waioeka",
+  publishTo := Some(
+    if (isSnapshot.value) Opts.resolver.sonatypeSnapshots
+    else Opts.resolver.sonatypeStaging
+  ),
   autoAPIMappings := true,
-  pomExtra := (
-    <developers>
-      <developer>
-        <name>$gh_name$</name>
-        <url>@$gh_username$</url>
-      </developer>
-    </developers>
-  )
-) ++ credentialSettings
+  licenses := Seq("BSD-style" -> url("http://www.opensource.org/licenses/bsd-license.php")),
+  scmInfo := Some(
+    ScmInfo(
+      url("https://github.com/$gh_username$/$name$"),
+      "scm:git:git@github.com:$gh_username$/$name$.git"
+   )
+ ),
+ developers := List(
+  Developer(id="$gh_username$", name="$name$", email="@$gh_username$", url=url("https://github.com/$gh_username$"))
+ )
+)
 
 
 lazy val $name$Settings = buildSettings ++ commonSettings ++ scoverageSettings
@@ -91,6 +77,8 @@ lazy val core = project.in(file("core"))
   .settings(moduleName := "$name$-core")
   .settings($name$Settings:_*)
   .settings(publishSettings:_*)
+
+lazy val docsAPIDir = settingKey[String]("Name of subdirectory in site target directory for api docs.")
 
 lazy val docSettings = Seq(
   autoAPIMappings := true,
@@ -113,8 +101,8 @@ lazy val docSettings = Seq(
   git.remoteRepo := "git@github.com:$gh_username$/$name$.git",
   includeFilter in makeSite := "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.yml" | "*.md",
   ghpagesNoJekyll := false,
-  siteSubdirName in ScalaUnidoc := "api",
-  addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), siteSubdirName in ScalaUnidoc),
+  docsAPIDir := "api",
+  addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc),docsAPIDir),
   unidocProjectFilter in (ScalaUnidoc, unidoc) := inAnyProject -- inProjects(tests)
 )
 
@@ -142,3 +130,13 @@ lazy val tests = project.in(file("tests"))
       "org.scalacheck" %% "scalacheck" % "1.13.4" % "test"
     )
   )
+
+lazy val bench = project.in(file("bench"))
+  .dependsOn(core)
+  .dependsOn(tests  % "test->test")
+  .settings(moduleName := "taniwha-bench")
+  .settings(taniwhaSettings:_*)
+  .settings(noPublishSettings:_*)
+  .settings(
+    coverageEnabled := false
+  ).enablePlugins(JmhPlugin)

@@ -3,17 +3,14 @@
 ## A standardized Scala project layout.
 
 This 'modern' [giter8][1] template will write SBT build files for a Scala projects.
-
-As for many open source projects, the core source is put into 'core' directory, with
-some placeholders for implicit defintions. The tests have a placeholder for ScalaCheck
-arbitrary traits.
-
-The plugins __sbt_microsite__ and __tut__ are included.
+Includes common set of plugins, __tut__, __jmh__ etc.
 
 
 ## Usage 
 
-```sbt new lewismj/sbt-project.g8```
+```sbt -Dsbt.version=0.13.16 new lewismj/sbt-project.g8```
+
+Note, the `build.sbt` produced will reference sbt v1.0,2
 
 ## Directory Layout
 
@@ -21,6 +18,7 @@ The plugins __sbt_microsite__ and __tut__ are included.
 +-- name
 |  +-- build.sbt
 |  +-- name 
+|    +-- bench
 |    +-- core 
 |      +-- src
 |        +-- main 
@@ -98,7 +96,7 @@ import org.typelevel.discipline.scalatest.Discipline
 /**
   * Base definition for Weka test suites.
   */
-trait  WekaSuite extends FunSuite
+trait WekaSuite extends FunSuite
   with BeforeAndAfterAll
   with Checkers
   with Matchers
