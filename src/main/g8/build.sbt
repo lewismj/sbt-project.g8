@@ -1,4 +1,3 @@
-enablePlugins(GhpagesPlugin)
 
 lazy val commonScalacOptions = Seq(
   "-feature",
@@ -105,6 +104,7 @@ lazy val docSettings = Seq(
 
 lazy val docs = project
     .enablePlugins(MicrositesPlugin)
+    .enablePlugins(ScalaUnidocPlugin, GhpagesPlugin)
     .settings(moduleName := "$package$-docs")
     .settings(unidocSettings: _*)
     .settings(ghpages.settings)
@@ -132,7 +132,7 @@ lazy val bench = project.in(file("bench"))
   .dependsOn(core)
   .dependsOn(tests  % "test->test")
   .settings(moduleName := "$package$-bench")
-  .settings(taniwhaSettings:_*)
+  .settings($package$Settings:_*)
   .settings(noPublishSettings:_*)
   .settings(
     coverageEnabled := false
