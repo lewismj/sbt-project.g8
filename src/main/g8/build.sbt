@@ -106,8 +106,6 @@ lazy val docs = project
     .enablePlugins(MicrositesPlugin)
     .enablePlugins(ScalaUnidocPlugin, GhpagesPlugin)
     .settings(moduleName := "$package$-docs")
-    .settings(unidocSettings: _*)
-    .settings(ghpages.settings)
     .dependsOn(core)
     .settings(docSettings:_*)
     .settings($name$Settings:_*)
