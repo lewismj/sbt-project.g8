@@ -36,7 +36,7 @@ lazy val scoverageSettings = Seq(
 lazy val commonSettings = Seq(
   scalacOptions ++= commonScalacOptions,
   libraryDependencies ++= Seq(
-    "org.typelevel" %% "cats" % "0.9.0"
+    "org.typelevel" %% "cats-core" % "1.6.0"
   ),
   fork in test := true
 )
@@ -122,9 +122,9 @@ lazy val tests = project.in(file("tests"))
     coverageEnabled := false,
     testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest, "-oDF"),
     libraryDependencies ++= Seq(
-      "org.typelevel" %% "cats-laws" % "0.9.0",
-      "org.scalatest"  %% "scalatest" % "3.0.0" % "test",
-      "org.scalacheck" %% "scalacheck" % "1.13.4" % "test"
+      "org.typelevel" %% "cats-laws" % "1.6.0",
+      "org.scalatest"  %% "scalatest" % "3.0.7" % "test",
+      "org.scalacheck" %% "scalacheck" % "1.14.0" % "test"
     )
   )
 
