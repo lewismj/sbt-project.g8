@@ -10,7 +10,7 @@ Includes common set of plugins, __tut__, __jmh__ etc.
 
 ```sbt -Dsbt.version=0.13.16 new lewismj/sbt-project.g8```
 
-Note, the `build.sbt` produced will reference sbt v1.0,2
+Note, the `build.sbt` produced will reference sbt v1.2.8
 
 ## Directory Layout
 
