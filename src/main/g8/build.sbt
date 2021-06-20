@@ -35,7 +35,7 @@ lazy val scoverageSettings = Seq(
 
 lazy val commonSettings = Seq(
   scalacOptions ++= commonScalacOptions,
-  libraryDependencies ++= Seq
+  libraryDependencies ++= Seq(
     "org.typelevel" %% "cats-core" % "2.6.1"
   )
 )
@@ -96,7 +96,7 @@ lazy val docSettings = Seq(
     "gray-lighter" -> "#F4F3F4",
     "white-color" -> "#FFFFFF"),
   git.remoteRepo := "git@github.com:$gh_username$/$name$.git",
-  includeFilter in makeSite := "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.yml" | "*.md",
+  makeSite / includeFilter := "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.yml" | "*.md",
   ghpagesNoJekyll := false,
   docsAPIDir := "api",
   ScalaUnidoc /unidoc / unidocProjectFilter := inAnyProject -- inProjects(tests)
@@ -118,7 +118,7 @@ lazy val tests = project.in(file("tests"))
   .settings(noPublishSettings:_*)
   .settings(
     coverageEnabled := false,
-    testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest, "-oDF"),
+    Test / testOptions += Tests.Argument(TestFrameworks.ScalaTest, "-oDF"),
     libraryDependencies ++= Seq(
       "org.scalatest"  %% "scalatest" % "3.2.9" % "test",
       "org.scalacheck" %% "scalacheck" % "1.15.4" % "test"
@@ -129,7 +129,7 @@ lazy val bench = project.in(file("bench"))
   .dependsOn(core)
   .dependsOn(tests  % "test->test")
   .settings(moduleName := "$package$-bench")
-  .settings($package$Settings:_*)
+  .settings($name$Settings:_*)
   .settings(noPublishSettings:_*)
   .settings(
     coverageEnabled := false
