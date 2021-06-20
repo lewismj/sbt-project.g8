@@ -69,7 +69,7 @@ lazy val core = project.in(file("core"))
   .settings($name$Settings:_*)
   .settings(publishSettings:_*)
 
-lazy val docsAPIDir = settingKey[String]("Name of subdirectory in site target directory for api docs.")
+lazy val docsMappingsAPIDir = settingKey[String]("Name of subdirectory in site target directory for api docs.")
 
 lazy val docSettings = Seq(
   autoAPIMappings := true,
