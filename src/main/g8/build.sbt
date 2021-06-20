@@ -90,10 +90,19 @@ lazy val docSettings = Seq(
     "gray-lighter" -> "#F4F3F4",
     "white-color" -> "#FFFFFF"),
   git.remoteRepo := "git@github.com:$gh_username$/$name$.git",
-  makeSite / includeFilter := "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.yml" | "*.md",
   ghpagesNoJekyll := false,
- // tbd:  docsAPIDir := "api",
-  ScalaUnidoc /unidoc / unidocProjectFilter := inAnyProject -- inProjects(tests)
+  ScalaUnidoc /unidoc / unidocProjectFilter := inAnyProject -- inProjects(tests),
+
+
+  docsMappingsAPIDir := "api",
+  addMappingsToSiteDir(ScalaUnidoc / packageDoc / mappings, docsMappingsAPIDir),
+  ghpagesNoJekyll := false,
+  mdoc / fork := true,
+  ScalaUnidoc / unidoc / fork := true,
+  makeSite / includeFilter := "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.yml" | "*.md" | "*.svg",
+  Jekyll / includeFilter := (makeSite / includeFilter).value,
+  mdocIn := (LocalRootProject / baseDirectory).value / "docs" / "src" / "main" / "mdoc",
+  mdocExtraArguments := Seq("--no-link-hygiene")
 )
 
 lazy val docs = project
