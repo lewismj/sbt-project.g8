@@ -1,1 +1,1 @@
-version in ThisBuild := "$version$"
+ThisBuild / version  := "$version$"

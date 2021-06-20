@@ -19,31 +19,30 @@ lazy val commonScalacOptions = Seq(
 
 lazy val buildSettings = Seq(
   name := "$name$",
-  organization in Global := "$organization$",
-  scalaVersion in Global := "$scala_version$"
+  Global / organization := "$organization$",
+  Global / scalaVersion := "$scala_version$"
 )
 
 lazy val noPublishSettings = Seq(
-    skip in publish := true
+    publish / skip := true
 )
 
 lazy val scoverageSettings = Seq(
-  coverageMinimum := 75,
+  coverageMinimumStmtTotal := 75,
   coverageFailOnMinimum := false,
   coverageExcludedPackages := "instances"
 )
 
 lazy val commonSettings = Seq(
   scalacOptions ++= commonScalacOptions,
-  libraryDependencies ++= Seq(
-    "org.typelevel" %% "cats-core" % "1.6.0"
-  ),
-  fork in test := true
+  libraryDependencies ++= Seq
+    "org.typelevel" %% "cats-core" % "2.6.1"
+  )
 )
 
 lazy val publishSettings = Seq(
   publishMavenStyle := true,
-  publishArtifact in Test := false,
+  Test / publishArtifact := false,
   pomIncludeRepository := Function.const(false),
   sonatypeProfileName := "com.waioeka",
   publishTo := Some(
@@ -100,8 +99,7 @@ lazy val docSettings = Seq(
   includeFilter in makeSite := "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.yml" | "*.md",
   ghpagesNoJekyll := false,
   docsAPIDir := "api",
-  addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc),docsAPIDir),
-  unidocProjectFilter in (ScalaUnidoc, unidoc) := inAnyProject -- inProjects(tests)
+  ScalaUnidoc /unidoc / unidocProjectFilter := inAnyProject -- inProjects(tests)
 )
 
 lazy val docs = project
@@ -122,9 +120,8 @@ lazy val tests = project.in(file("tests"))
     coverageEnabled := false,
     testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest, "-oDF"),
     libraryDependencies ++= Seq(
-      "org.typelevel" %% "cats-laws" % "1.6.0",
-      "org.scalatest"  %% "scalatest" % "3.0.7" % "test",
-      "org.scalacheck" %% "scalacheck" % "1.14.0" % "test"
+      "org.scalatest"  %% "scalatest" % "3.2.9" % "test",
+      "org.scalacheck" %% "scalacheck" % "1.15.4" % "test"
     )
   )
 
