@@ -9,13 +9,7 @@ lazy val commonScalacOptions = Seq(
   "-language:higherKinds",
   "-language:implicitConversions",
   "-unchecked",
-  "-Xcheckinit",
-  "-Xfuture",
-  "-Xlint",
-  "-Xfatal-warnings",
-  "-Yno-adapted-args",
-  "-Ywarn-dead-code",
-  "-Ywarn-value-discard")
+  "-Xfatal-warnings")
 
 lazy val buildSettings = Seq(
   name := "$name$",
