@@ -8,7 +8,7 @@ Includes common set of plugins, __tut__, __jmh__ etc.
 
 ## Usage 
 
-```sbt -Dsbt.version=1.2.8 new lewismj/sbt-project.g8```
+```sbt -Dsbt.version=1.5.4 new lewismj/sbt-project.g8```
 
 
 ## Directory Layout

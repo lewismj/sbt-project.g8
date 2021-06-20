@@ -92,8 +92,6 @@ lazy val docSettings = Seq(
   git.remoteRepo := "git@github.com:$gh_username$/$name$.git",
   ghpagesNoJekyll := false,
   ScalaUnidoc /unidoc / unidocProjectFilter := inAnyProject -- inProjects(tests),
-
-
   docsMappingsAPIDir := "api",
   addMappingsToSiteDir(ScalaUnidoc / packageDoc / mappings, docsMappingsAPIDir),
   ghpagesNoJekyll := false,
@@ -102,7 +100,11 @@ lazy val docSettings = Seq(
   makeSite / includeFilter := "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.yml" | "*.md" | "*.svg",
   Jekyll / includeFilter := (makeSite / includeFilter).value,
   mdocIn := (LocalRootProject / baseDirectory).value / "docs" / "src" / "main" / "mdoc",
-  mdocExtraArguments := Seq("--no-link-hygiene")
+  mdocExtraArguments := Seq("--no-link-hygiene"),
+  ScalaUnidoc / unidoc / scalacOptions ++= Seq(
+    "-sourcepath",
+    (LocalRootProject / baseDirectory).value.getAbsolutePath
+  )
 )
 
 lazy val docs = project
