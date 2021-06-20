@@ -92,7 +92,7 @@ lazy val docSettings = Seq(
   git.remoteRepo := "git@github.com:$gh_username$/$name$.git",
   makeSite / includeFilter := "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.yml" | "*.md",
   ghpagesNoJekyll := false,
-  docsAPIDir := "api",
+ // tbd:  docsAPIDir := "api",
   ScalaUnidoc /unidoc / unidocProjectFilter := inAnyProject -- inProjects(tests)
 )
 
