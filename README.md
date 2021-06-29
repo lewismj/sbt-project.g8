@@ -3,7 +3,6 @@
 ## A standardized Scala project layout.
 
 This 'modern' [giter8][1] template will write SBT build files for a Scala projects.
-Includes common set of plugins, __tut__, __jmh__ etc.
 
 
 ## Usage 

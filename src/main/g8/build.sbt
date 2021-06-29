@@ -38,7 +38,7 @@ lazy val publishSettings = Seq(
   publishMavenStyle := true,
   Test / publishArtifact := false,
   pomIncludeRepository := Function.const(false),
-  sonatypeProfileName := "com.waioeka",
+  sonatypeProfileName := "com.$organization$",
   publishTo := Some(
     if (isSnapshot.value) Opts.resolver.sonatypeSnapshots
     else Opts.resolver.sonatypeStaging
@@ -61,13 +61,13 @@ lazy val $name$Settings = buildSettings ++ commonSettings ++ scoverageSettings
 
 lazy val $name$ = project.in(file("."))
   .settings(moduleName := "root")
-  .settings(noPublishSettings:_*)
+  .settings(noPublishSettings)
   .aggregate(docs, tests, core)
 
 lazy val core = project.in(file("core"))
   .settings(moduleName := "$name$-core")
-  .settings($name$Settings:_*)
-  .settings(publishSettings:_*)
+  .settings($name$Settings)
+  .settings(publishSettings)
 
 lazy val docsMappingsAPIDir = settingKey[String]("Name of subdirectory in site target directory for api docs.")
 
@@ -95,32 +95,33 @@ lazy val docSettings = Seq(
   docsMappingsAPIDir := "api",
   addMappingsToSiteDir(ScalaUnidoc / packageDoc / mappings, docsMappingsAPIDir),
   ghpagesNoJekyll := false,
-  mdoc / fork := true,
-  ScalaUnidoc / unidoc / fork := true,
   makeSite / includeFilter := "*.html" | "*.css" | "*.png" | "*.jpg" | "*.gif" | "*.js" | "*.swf" | "*.yml" | "*.md" | "*.svg",
   Jekyll / includeFilter := (makeSite / includeFilter).value,
   mdocIn := (LocalRootProject / baseDirectory).value / "docs" / "src" / "main" / "mdoc",
   mdocExtraArguments := Seq("--no-link-hygiene"),
   ScalaUnidoc / unidoc / scalacOptions ++= Seq(
+    "-doc-source-url",
+    scmInfo.value.get.browseUrl + "/tree/main€{FILE_PATH}.scala",
     "-sourcepath",
     (LocalRootProject / baseDirectory).value.getAbsolutePath
-  )
+ )
 )
 
-lazy val docs = project
+lazy val docs = project.in(file("docs"))
     .enablePlugins(MicrositesPlugin)
     .enablePlugins(ScalaUnidocPlugin, GhpagesPlugin)
     .settings(moduleName := "$package$-docs")
     .dependsOn(core)
-    .settings(docSettings:_*)
-    .settings($name$Settings:_*)
-    .settings(noPublishSettings:_*)
+    .settings(docSettings)
+    .settings($name$Settings)
+    .settings(noPublishSettings)
+    .settings(publishSettings)
 
 lazy val tests = project.in(file("tests"))
   .dependsOn(core)
   .settings(moduleName := "$name$-tests")
-  .settings($name$Settings:_*)
-  .settings(noPublishSettings:_*)
+  .settings($name$Settings)
+  .settings(noPublishSettings)
   .settings(
     coverageEnabled := false,
     Test / testOptions += Tests.Argument(TestFrameworks.ScalaTest, "-oDF"),
@@ -134,8 +135,8 @@ lazy val bench = project.in(file("bench"))
   .dependsOn(core)
   .dependsOn(tests  % "test->test")
   .settings(moduleName := "$package$-bench")
-  .settings($name$Settings:_*)
-  .settings(noPublishSettings:_*)
+  .settings($name$Settings)
+  .settings(noPublishSettings)
   .settings(
     coverageEnabled := false
   ).enablePlugins(JmhPlugin)

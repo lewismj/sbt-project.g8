@@ -1,17 +1,22 @@
 package $package$
 package tests
 
-import org.scalatest.prop.{Checkers, GeneratorDrivenPropertyChecks}
-import org.scalatest.{BeforeAndAfterAll, FunSuite, Matchers}
-import org.typelevel.discipline.scalatest.Discipline
+
+/* -- scala 3???
+import org.scalacheck.Gen 
+import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
+*/
+
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.BeforeAndAfterAll
+import org.scalatest.matchers.should.Matchers
+import org.scalacheck.Gen
+
 
 /**
-  * Base definition for $package;format="Camel"$ test suites.
+  * Base definition for Hello test suites.
   */
-trait  $package;format="Camel"$Suite extends FunSuite
+trait  HelloSuite extends AnyFunSuite
   with BeforeAndAfterAll
   with Checkers
-  with Matchers
-  with GeneratorDrivenPropertyChecks
-  with Discipline {
-}
+  with Matchers {}
